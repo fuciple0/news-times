@@ -8,7 +8,7 @@ const getLatestNews = async() =>{
     //     `https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_Key}`
     // )
     const url = new URL(
-        `http://times-node-env.eba-appvq3ef.ap-northeast-2.elasticbeanstalk.com/top-headlines`
+        `https://graceful-sherbet-defe7a.netlify.app/top-headlines`
     )
     const response = await fetch(url)
     const data = await response.json()
@@ -22,7 +22,7 @@ const getNewsByCategory = async(event) =>{
 
     // const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_Key}`
     // )
-    const url = new URL(`http://times-node-env.eba-appvq3ef.ap-northeast-2.elasticbeanstalk.com/top-headlines?category=${category}`
+    const url = new URL(`https://graceful-sherbet-defe7a.netlify.app/top-headlines?category=${category}`
     )
 
     const response = await fetch(url)
@@ -36,7 +36,7 @@ const getNewsByKeyword = async()=>{
     const keyword = document.getElementById("search-input").value
     // const url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_Key}`
     // )
-    const url = new URL(`http://times-node-env.eba-appvq3ef.ap-northeast-2.elasticbeanstalk.com/top-headlines?q=${keyword}`
+    const url = new URL(`https://graceful-sherbet-defe7a.netlify.app/top-headlines?q=${keyword}`
     )
 
     const response = await fetch(url)
