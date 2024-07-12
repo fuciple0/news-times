@@ -5,9 +5,7 @@ menus.forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByCategory(event))
 );
 
-// let url = new URL(
-//   `https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_Key}`
-// );
+// let url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_Key}`); // newsapi
 let url = new URL(`https://graceful-sherbet-defe7a.netlify.app/top-headlines`);
 let totalResults = 0;
 let page = 1;
@@ -21,6 +19,7 @@ const getNews = async () => {
 
     const response = await fetch(url);
     const data = await response.json();
+
     if (response.status === 200) {
       if (data.articles.length === 0) {
         throw new Error("No result for this search");
@@ -38,29 +37,25 @@ const getNews = async () => {
 };
 
 const getLatestNews = async () => {
-  // url = new URL(
-  //   `https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_Key}`
-  // );
-  url = new URL(`https://graceful-sherbet-defe7a.netlify.app/top-headlines`);
-  getNews();
+  // url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_Key}`); // newsapi
+  url = new URL(`https://graceful-sherbet-defe7a.netlify.app/top-headlines`); //누나 api
+  await getNews();  // await 붙임
 };
 
 const getNewsByCategory = async (event) => {
   const category = event.target.textContent.toLowerCase();
 
-  // url = new URL(
-  //   `https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_Key}`
-  // );
+  // url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_Key}`);  //newsapi
   url = new URL(
     `https://graceful-sherbet-defe7a.netlify.app/top-headlines?category=${category}`
   );
-  getNews();
+  await getNews();  // await 붙임
 };
 
 const openSearchBox = () => {
   let inputArea = document.getElementById("input-area");
   if (inputArea.style.display === "inline") {
-    inputArea.style.display = "none";
+      inputArea.style.display = "none";
   } else {
     inputArea.style.display = "inline";
   }
@@ -69,13 +64,11 @@ const openSearchBox = () => {
 const getNewsByKeyword = async () => {
   const keyword = document.getElementById("search-input").value;
 
-  // url = new URL(
-  //   `https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_Key}`
-  // );
+  // url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_Key}`);
   url = new URL(
     `https://graceful-sherbet-defe7a.netlify.app/top-headlines?q=${keyword}`
   );
-  getNews();
+  await getNews();  // await 붙임
 };
 
 const render = () => {
@@ -93,16 +86,13 @@ const render = () => {
         <div>${news.source.name || "no source"}  ${moment(news.publishedAt).fromNow()}</div>
       </div>
     </div>`
-    )
-    .join("");
+    ).join("");
 
   document.getElementById("news-board").innerHTML = newsHTML;
 };
 
 const errorRender = (errorMessage) => {
-  const errorHTML = `<div class="alert alert-danger" role="alert">
-    ${errorMessage}
-    </div>`;
+  const errorHTML = `<div class="alert alert-danger" role="alert">${errorMessage}</div>`;
 
   document.getElementById("news-board").innerHTML = errorHTML;
 };
@@ -122,29 +112,22 @@ const paginationRender = () => {
 
   if (firstPage >= 6) {
     paginationHTML = `<li class="page-item" onclick="moveToPage(1)"><a class="page-link" href='#js-bottom'>&lt;&lt;</a></li>
-  <li class="page-item" onclick="moveToPage(${
-    page - 1
-  })"><a class="page-link" href='#js-bottom'>&lt;</a></li>`;
+                      <li class="page-item" onclick="moveToPage(${page - 1})"><a class="page-link" href='#js-bottom'>&lt;</a></li>`;
   }
 
   for (let i = firstPage; i <= lastPage; i++) {
-    paginationHTML += `<li class="page-item ${
-      i === page ? "active" : ""
-    }" onclick="moveToPage(${i})"><a class="page-link" href='#js-bottom' >${i}</a></li>`;
+    paginationHTML += `<li class="page-item ${i === page ? "active" : ""}" onclick="moveToPage(${i})"><a class="page-link" href='#js-bottom' >${i}</a></li>`;
   }
 
   if (lastPage < totalPages) {
-    paginationHTML += `<li class="page-item" onclick="moveToPage(${
-      page + 1
-    })"><a class="page-link" href='#js-program-detail-bottom'>&gt;</a></li>
-  <li class="page-item" onclick="moveToPage(${totalPages})"><a class="page-link" href='#js-bottom'>&gt;&gt;</a></li>`;
+    paginationHTML += `<li class="page-item" onclick="moveToPage(${page + 1})"><a class="page-link" href='#js-program-detail-bottom'>&gt;</a></li>
+                      <li class="page-item" onclick="moveToPage(${totalPages})"><a class="page-link" href='#js-bottom'>&gt;&gt;</a></li>`;
   }
 
   document.querySelector(".pagination").innerHTML = paginationHTML;
 };
 
 const moveToPage = (pageNum) => {
-  console.log("🚀 ~ moveToPage ~ moveToPage:", pageNum);
   page = pageNum;
   getNews();
 };
@@ -159,6 +142,4 @@ const closeNav = () => {
 
 getLatestNews();
 
-//1.버튼에 클릭이벤트 주기
-//2.카테고리별 뉴스 가져오기
-//3.뉴스를 보여주기
+
