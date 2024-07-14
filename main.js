@@ -44,7 +44,7 @@ const getLatestNews = async () => {
 
 const getNewsByCategory = async (event) => {
   const category = event.target.textContent.toLowerCase();
-
+  page = 1;
   // url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_Key}`);  //newsapi
   url = new URL(
     `https://graceful-sherbet-defe7a.netlify.app/top-headlines?category=${category}`
@@ -63,7 +63,7 @@ const openSearchBox = () => {
 
 const getNewsByKeyword = async () => {
   const keyword = document.getElementById("search-input").value;
-
+  page = 1;
   // url = new URL(`https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_Key}`);
   url = new URL(
     `https://graceful-sherbet-defe7a.netlify.app/top-headlines?q=${keyword}`
@@ -107,10 +107,9 @@ const paginationRender = () => {
     lastPage = totalPages;
   }
 
-  const firstPage =
-    lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
+  let firstPage = lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
 
-  if (firstPage >= 6) {
+  if (page > 1) {
     paginationHTML = `<li class="page-item" onclick="moveToPage(1)"><a class="page-link" href='#js-bottom'>&lt;&lt;</a></li>
                       <li class="page-item" onclick="moveToPage(${page - 1})"><a class="page-link" href='#js-bottom'>&lt;</a></li>`;
   }
@@ -119,7 +118,7 @@ const paginationRender = () => {
     paginationHTML += `<li class="page-item ${i === page ? "active" : ""}" onclick="moveToPage(${i})"><a class="page-link" href='#js-bottom' >${i}</a></li>`;
   }
 
-  if (lastPage < totalPages) {
+  if (page < totalPages) {
     paginationHTML += `<li class="page-item" onclick="moveToPage(${page + 1})"><a class="page-link" href='#js-program-detail-bottom'>&gt;</a></li>
                       <li class="page-item" onclick="moveToPage(${totalPages})"><a class="page-link" href='#js-bottom'>&gt;&gt;</a></li>`;
   }
